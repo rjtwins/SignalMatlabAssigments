@@ -1,0 +1,375 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Code Appendix:</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-03-15"><meta name="DC.source" content="Assignment6.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Code Appendix:</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">6.6A,B</a></li><li><a href="#2">6.6C</a></li><li><a href="#3">6.6D</a></li><li><a href="#4">6.6E</a></li><li><a href="#5">7.4</a></li></ul></div><h2 id="1">6.6A,B</h2><pre class="codeinput"><span class="comment">%Loading file:</span>
+load(<span class="string">'opdracht_fMRI_klein.mat'</span>);
+
+<span class="comment">%Initiating vectors.</span>
+v1 = zeros(1,50);
+v1(25) = 1;
+
+<span class="comment">%Convolve v1 with hrf.</span>
+r1 = conv(v1,hrf);
+r1 = r1(1:50);
+
+<span class="comment">%Initiating time series.</span>
+time = 1:3.22:50*3.22;
+
+<span class="comment">%Plotting</span>
+figure(1);
+hold <span class="string">on</span>;
+title(<span class="string">"Fig1"</span>);
+plot(time,r1,<span class="string">'o--'</span>);
+plot(time,v1,<span class="string">'o--'</span>);
+legend(<span class="string">"Response"</span>,<span class="string">"Stimulus"</span>);
+xlabel(<span class="string">"Time(sec)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="Assignment6_01.png" alt=""> <h2 id="2">6.6C</h2><pre class="codeinput"><span class="comment">%A</span>
+<span class="comment">%Loading file</span>
+load(<span class="string">'opdracht_fMRI_klein.mat'</span>);
+
+<span class="comment">%Initiating vector and time series.</span>
+D = zeros(5,360);
+time = 1:3.22:360*3.22;
+
+<span class="comment">%F</span>
+<span class="comment">%Inserting data into non convolved design matrix.</span>
+D(1,:) = 1;
+D(2,fix) = 1;
+D(3,stat) = 1;
+D(4,natt) = 1;
+D(5,att) = 1;
+D = D';
+
+<span class="comment">%B</span>
+<span class="comment">%Plotting design with function.</span>
+figure(2);
+design(D,time,<span class="string">""</span>);
+
+<span class="comment">%D</span>
+<span class="comment">%Convolving design matrix.</span>
+resp = conv2(D,hrf);
+resp = resp(1:360,:);
+
+<span class="comment">%E</span>
+<span class="comment">%Plotting convolved design matrix with function.</span>
+figure(3);
+design(resp,time,<span class="string">"Response"</span>);
+</pre><img vspace="5" hspace="5" src="Assignment6_02.png" alt=""> <img vspace="5" hspace="5" src="Assignment6_03.png" alt=""> <h2 id="3">6.6D</h2><pre class="codeinput"><span class="comment">%A</span>
+<span class="comment">%Plotting bolt and responses superexposed.</span>
+figure(4)
+<span class="keyword">for</span> i=1:3
+    subplot(3,1,i)
+    hold <span class="string">on</span>
+    title(<span class="string">"Fig4."</span> + i);
+    plot(time,bold(:,i));
+    <span class="keyword">for</span>(j=1:4)
+        plot(time,resp(:,j+1),<span class="string">'o--'</span>);
+    <span class="keyword">end</span>
+    legend(<span class="string">"Bolt"</span>,<span class="string">"Fix resp"</span>,<span class="string">"Stat resp"</span>,<span class="string">"Natt resp"</span>,<span class="string">"Att resp"</span>);
+    xlabel(<span class="string">"Time(sec)"</span>);
+    ylabel(<span class="string">"Amplitude"</span>);
+    hold <span class="string">off</span>
+<span class="keyword">end</span>
+
+<span class="comment">%B</span>
+<span class="comment">%Initating vector and filling with regression coefs.</span>
+beta = zeros(5,3);
+<span class="keyword">for</span> i=1:3
+    beta(:,i) = regress(bold(:,i),resp);
+<span class="keyword">end</span>
+
+<span class="comment">%C</span>
+<span class="comment">%fitting data by multiplying by convolved design matrix.</span>
+fitted = resp*beta;
+<span class="comment">%Calculating error</span>
+error = abs(bold - fitted);
+<span class="comment">%Plotting fitted data, measured data and error superexposed.</span>
+figure(5)
+<span class="keyword">for</span> i=1:3
+    subplot(3,1,i)
+    hold <span class="string">on</span>;
+    plot(time,bold(:,i),<span class="string">'go--'</span>);
+    plot(time,fitted(:,i),<span class="string">'bo--'</span>);
+    plot(time,error(:,i),<span class="string">'ro--'</span>);
+    xlabel(<span class="string">"Time(sec)"</span>)
+    ylabel(<span class="string">"Amplitude"</span>)
+    title(<span class="string">"Fig5."</span> + i);
+    legend(<span class="string">"Bolt"</span>,<span class="string">"Bolt*"</span>,<span class="string">"Error"</span>);
+    hold <span class="string">off</span>;
+<span class="keyword">end</span>
+
+<span class="comment">%D</span>
+<span class="comment">%Computing sum of squared errors.</span>
+sse = sum(error.^2);
+</pre><pre class="codeoutput">Warning: X is rank deficient to within machine precision. 
+Warning: X is rank deficient to within machine precision. 
+Warning: X is rank deficient to within machine precision. 
+</pre><img vspace="5" hspace="5" src="Assignment6_04.png" alt=""> <img vspace="5" hspace="5" src="Assignment6_05.png" alt=""> <h2 id="4">6.6E</h2><pre class="codeinput"><span class="comment">%A</span>
+<span class="comment">%Plotting histogram of regression coefs.</span>
+figure(6)
+<span class="keyword">for</span> i=1:3
+    subplot(3,1,i);
+    hold <span class="string">on</span>;
+    title(<span class="string">"fig6."</span> + i);
+    bar(beta(2:end,i));
+    xlabel(<span class="string">"Index"</span>)
+    ylabel(<span class="string">"Value"</span>)
+    xlim([1,4]);
+<span class="keyword">end</span>
+<span class="comment">%B</span>
+<span class="comment">%Calculating differenses</span>
+betastar = zeros(3,3)
+betastar(1,:) = beta(2,:) - beta(3,:);
+betastar(2,:) = beta(3,:) - beta(4,:);
+betastar(3,:) = beta(5,:) - beta(4,:);
+
+<span class="comment">%Plotting</span>
+figure(7)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig7"</span>);
+bar(betastar);
+legend(<span class="string">"Stat - Fix"</span>, <span class="string">"Natt - Stat"</span>, <span class="string">"Att - Natt"</span>);
+hold <span class="string">off</span>
+</pre><pre class="codeoutput">
+betastar =
+
+     0     0     0
+     0     0     0
+     0     0     0
+
+</pre><img vspace="5" hspace="5" src="Assignment6_06.png" alt=""> <img vspace="5" hspace="5" src="Assignment6_07.png" alt=""> <h2 id="5">7.4</h2><pre class="codeinput">load(<span class="string">'detection.mat'</span>);
+<span class="comment">%Initiating data matrices.</span>
+d1 = zeros(4,6);
+d2 = zeros(4,6);
+<span class="comment">%Filling data matrices with the false pos, false neg rates, d-prime and</span>
+<span class="comment">%criterion values</span>
+<span class="keyword">for</span> i=1:6
+    d1(1,i) = sum(Resp1(:,1) == Stim1(:,i))/1000;
+    d2(1,i) = sum(Resp2(:,1) == Stim2(:,i))/1000;
+    d1(2,i) = sum(Resp1(:,1) == 1 &amp; Stim1(:,i) ==0)/1000;
+    d2(2,i) = sum(Resp2(:,1) == 1 &amp; Stim2(:,i) ==0)/1000;
+    [d1(3,i),d1(4,i)] = dcrit(d1(1,i),d1(2,i));
+    [d2(3,i),d2(4,i)] = dcrit(d2(1,i),d2(2,i));
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Code Appendix:
+%% 6.6A,B
+%Loading file:
+load('opdracht_fMRI_klein.mat');
+
+%Initiating vectors.
+v1 = zeros(1,50);
+v1(25) = 1;
+
+%Convolve v1 with hrf.
+r1 = conv(v1,hrf);
+r1 = r1(1:50);
+
+%Initiating time series.
+time = 1:3.22:50*3.22;
+
+%Plotting
+figure(1);
+hold on;
+title("Fig1");
+plot(time,r1,'oREPLACE_WITH_DASH_DASH');
+plot(time,v1,'oREPLACE_WITH_DASH_DASH');
+legend("Response","Stimulus");
+xlabel("Time(sec)");
+ylabel("Amplitude");
+hold off;
+
+%% 6.6C
+%A
+%Loading file
+load('opdracht_fMRI_klein.mat');
+
+%Initiating vector and time series.
+D = zeros(5,360);
+time = 1:3.22:360*3.22;
+
+%F
+%Inserting data into non convolved design matrix.
+D(1,:) = 1;
+D(2,fix) = 1;
+D(3,stat) = 1;
+D(4,natt) = 1;
+D(5,att) = 1;
+D = D';
+
+%B
+%Plotting design with function.
+figure(2);
+design(D,time,"");
+
+%D
+%Convolving design matrix.
+resp = conv2(D,hrf);
+resp = resp(1:360,:);
+
+%E
+%Plotting convolved design matrix with function.
+figure(3);
+design(resp,time,"Response");
+
+%% 6.6D
+%A
+%Plotting bolt and responses superexposed.
+figure(4)
+for i=1:3
+    subplot(3,1,i)
+    hold on
+    title("Fig4." + i);
+    plot(time,bold(:,i));
+    for(j=1:4)
+        plot(time,resp(:,j+1),'oREPLACE_WITH_DASH_DASH');
+    end
+    legend("Bolt","Fix resp","Stat resp","Natt resp","Att resp");
+    xlabel("Time(sec)");
+    ylabel("Amplitude");
+    hold off
+end
+
+%B
+%Initating vector and filling with regression coefs.
+beta = zeros(5,3);
+for i=1:3
+    beta(:,i) = regress(bold(:,i),resp);
+end
+
+%C
+%fitting data by multiplying by convolved design matrix.
+fitted = resp*beta;
+%Calculating error
+error = abs(bold - fitted);
+%Plotting fitted data, measured data and error superexposed.
+figure(5)
+for i=1:3
+    subplot(3,1,i)
+    hold on;
+    plot(time,bold(:,i),'goREPLACE_WITH_DASH_DASH');
+    plot(time,fitted(:,i),'boREPLACE_WITH_DASH_DASH');
+    plot(time,error(:,i),'roREPLACE_WITH_DASH_DASH');
+    xlabel("Time(sec)")
+    ylabel("Amplitude")
+    title("Fig5." + i);
+    legend("Bolt","Bolt*","Error");
+    hold off;
+end
+
+%D
+%Computing sum of squared errors.
+sse = sum(error.^2);
+
+%% 6.6E
+%A
+%Plotting histogram of regression coefs.
+figure(6)
+for i=1:3
+    subplot(3,1,i);
+    hold on;
+    title("fig6." + i);
+    bar(beta(2:end,i));
+    xlabel("Index")
+    ylabel("Value")
+    xlim([1,4]);
+end
+%B
+%Calculating differenses
+betastar = zeros(3,3)
+betastar(1,:) = beta(2,:) - beta(3,:);
+betastar(2,:) = beta(3,:) - beta(4,:);
+betastar(3,:) = beta(5,:) - beta(4,:);
+
+%Plotting
+figure(7)
+hold on;
+title("Fig7");
+bar(betastar);
+legend("Stat - Fix", "Natt - Stat", "Att - Natt");
+hold off
+%% 7.4
+load('detection.mat');
+%Initiating data matrices.
+d1 = zeros(4,6);
+d2 = zeros(4,6);
+%Filling data matrices with the false pos, false neg rates, d-prime and
+%criterion values
+for i=1:6
+    d1(1,i) = sum(Resp1(:,1) == Stim1(:,i))/1000;
+    d2(1,i) = sum(Resp2(:,1) == Stim2(:,i))/1000;
+    d1(2,i) = sum(Resp1(:,1) == 1 & Stim1(:,i) ==0)/1000;
+    d2(2,i) = sum(Resp2(:,1) == 1 & Stim2(:,i) ==0)/1000;
+    [d1(3,i),d1(4,i)] = dcrit(d1(1,i),d1(2,i));
+    [d2(3,i),d2(4,i)] = dcrit(d2(1,i),d2(2,i));
+end
+##### SOURCE END #####
+--></body></html>

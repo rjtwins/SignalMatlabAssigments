@@ -1,0 +1,626 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Assignment7</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-03-26"><meta name="DC.source" content="Assignment7.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">8.1</a></li><li><a href="#2">8.2</a></li><li><a href="#3">8.3</a></li><li><a href="#4">8.4</a></li><li><a href="#5">8.6</a></li><li><a href="#6">8.7</a></li><li><a href="#7">8.8</a></li><li><a href="#8">8.9</a></li></ul></div><h2 id="1">8.1</h2><pre class="codeinput"><span class="comment">%Loading data</span>
+load(<span class="string">'erf-data.mat'</span>);
+
+<span class="comment">%Plotting data</span>
+figure(1);
+hold <span class="string">on</span>;
+title(<span class="string">"Fig1 FC"</span>)
+xlabel(<span class="string">"Time(sec)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+<span class="keyword">for</span>(i = 1:4)
+    plot(time,dataFC(i,:));
+<span class="keyword">end</span>
+legend(<span class="string">"Trial 1"</span>, <span class="string">"Trial 2"</span>, <span class="string">"Trial 3"</span>, <span class="string">"Trial 4"</span>);
+hold <span class="string">off</span>
+
+figure(2);
+hold <span class="string">on</span>;
+title(<span class="string">"Fig2 FIC"</span>)
+xlabel(<span class="string">"Time(sec)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+<span class="keyword">for</span>(i = 1:4)
+    plot(time,dataFIC(i,:));
+<span class="keyword">end</span>
+legend(<span class="string">"Trial 1"</span>, <span class="string">"Trial 2"</span>, <span class="string">"Trial 3"</span>, <span class="string">"Trial 4"</span>);
+hold <span class="string">off</span>;
+
+figure(3);
+hold <span class="string">on</span>;
+title(<span class="string">"Fig3 IC"</span>)
+xlabel(<span class="string">"Time(sec)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+<span class="keyword">for</span>(i = 1:4)
+    plot(time,dataIC(i,:));
+<span class="keyword">end</span>
+legend(<span class="string">"Trial 1"</span>, <span class="string">"Trial 2"</span>, <span class="string">"Trial 3"</span>, <span class="string">"Trial 4"</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="Assignment7_01.png" alt=""> <img vspace="5" hspace="5" src="Assignment7_02.png" alt=""> <img vspace="5" hspace="5" src="Assignment7_03.png" alt=""> <h2 id="2">8.2</h2><pre class="codeinput"><span class="comment">%Taking means over dim 1 (trials) of data</span>
+meanFC = mean(dataFC,1);
+meanFIC = mean(dataFIC,1);
+meanIC = mean(dataIC,1);
+
+<span class="comment">%plotting means</span>
+figure(4)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig4 mean over trials"</span>)
+xlabel(<span class="string">"Time(sec)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+plot(time,meanFC);
+plot(time,meanFIC);
+plot(time,meanIC);
+legend(<span class="string">"FC"</span>,<span class="string">"FIC"</span>,<span class="string">"IC"</span>);
+xlim([0,1])
+hold <span class="string">off</span>;
+
+figure(5)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig5 FC mean over trials and raw"</span>)
+xlabel(<span class="string">"Time(sec)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+p = plot(time,meanFC);
+set(p(1),<span class="string">'linewidth'</span>,3);
+<span class="keyword">for</span>(i = 1:10)
+    plot(time,dataFC(i,:),<span class="string">'--'</span>);
+<span class="keyword">end</span>
+legend(<span class="string">"Mean"</span>);
+xlim([0,1])
+hold <span class="string">off</span>;
+
+figure(6)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig6 FIC mean over trials and raw"</span>)
+xlabel(<span class="string">"Time(sec)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+p = plot(time,meanFIC);
+set(p(1),<span class="string">'linewidth'</span>,3);
+<span class="keyword">for</span>(i = 1:10)
+    plot(time,dataFIC(i,:),<span class="string">'--'</span>);
+<span class="keyword">end</span>
+legend(<span class="string">"Mean"</span>);
+xlim([0,1])
+hold <span class="string">off</span>;
+
+figure(7)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig7 IC mean over trials and raw"</span>)
+xlabel(<span class="string">"Time(sec)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+p = plot(time,meanIC);
+set(p(1),<span class="string">'linewidth'</span>,3);
+<span class="keyword">for</span>(i = 1:10)
+    plot(time,dataIC(i,:),<span class="string">'--'</span>);
+<span class="keyword">end</span>
+legend(<span class="string">"Mean"</span>);
+xlim([0,1])
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="Assignment7_04.png" alt=""> <img vspace="5" hspace="5" src="Assignment7_05.png" alt=""> <img vspace="5" hspace="5" src="Assignment7_06.png" alt=""> <img vspace="5" hspace="5" src="Assignment7_07.png" alt=""> <h2 id="3">8.3</h2><pre class="codeinput"><span class="comment">%We are goig to reuse vars so clear the worksspace.</span>
+clearvars;
+<span class="comment">%Load data</span>
+load(<span class="string">'tfr-data.mat'</span>);
+
+<span class="comment">%Do fourier transform on data</span>
+fftData = fft(data, [], 2);
+fftAmp = abs(fftData)./size(fftData,2);
+n = size(fftData,2);
+fs = n/abs(min(time) - max(time));
+f = fs/n*(0:n-1);
+f_nyquist = fs/2;
+
+<span class="comment">%Cutoff at nyquist</span>
+<span class="keyword">if</span> mod(n,2)==0
+    n_cutoff = n/2;
+<span class="keyword">else</span>
+    n_cutoff=(n-1)/2;
+<span class="keyword">end</span>
+f = f(1:n_cutoff);
+fftAmp = 2*fftAmp(:,1:n_cutoff);
+fftAmp(:,1) = fftAmp(:,1)./2;
+
+ampMean = mean(fftAmp,1);
+
+<span class="comment">%Plot both meaned data and multiplied meaned data.</span>
+figure(8)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig8 mean of frequency amplitudes"</span>)
+plot(f,ampMean,<span class="string">'k.-'</span>);
+xlabel(<span class="string">"Frequency,(Hz)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+hold <span class="string">off</span>;
+
+<span class="comment">%Calc multiplied means</span>
+multMean = ampMean.*f;
+figure(9)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig9 multiplied mean of frequency amplitudes"</span>)
+plot(f,multMean, <span class="string">'k.-'</span>);
+xlabel(<span class="string">"Frequency(Hz)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="Assignment7_08.png" alt=""> <img vspace="5" hspace="5" src="Assignment7_09.png" alt=""> <h2 id="4">8.4</h2><pre class="codeinput"><span class="comment">%Define slice paramiters</span>
+s_begin = 1;
+s_end = 100;
+
+<span class="comment">%Get slice</span>
+slice = data(:,s_begin:s_end);
+stime = time(:,s_begin:s_end);
+
+<span class="comment">%Do transform on slice</span>
+[fslice,fftSlice, ampMeanSlice, multAmpMeanSlice] = fTrans(slice,stime);
+
+<span class="comment">%Plot frequencies</span>
+figure(10)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig10 mean of slice from t="</span> + time(s_begin) + <span class="string">" sec. to t="</span> + time(s_end) + <span class="string">" sec."</span>);
+plot(fslice,ampMeanSlice, <span class="string">'k.-'</span>);
+xlabel(<span class="string">"Frequency(Hz)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+hold <span class="string">off</span>;
+
+figure(11)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig11 multiplied mean of slice from t="</span> + time(s_begin) + <span class="string">" sec. to t="</span> + time(s_end) + <span class="string">" sec."</span>);
+plot(fslice,multAmpMeanSlice, <span class="string">'k.-'</span>);
+xlabel(<span class="string">"Frequency(Hz)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+hold <span class="string">off</span>;
+
+<span class="comment">%Another slice is made and transform preformed on, followed by plotting it.</span>
+s_begin = 801;
+s_end = 900;
+
+slice2 = data(:,s_begin:s_end);
+stime2 = time(:,s_begin:s_end);
+[fslice2,fftSlice2, ampMeanSlice2, multAmpMeanSlice2] = fTrans(slice2,stime2);
+
+figure(12)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig12 multiplied mean of slices"</span>);
+plot(fslice,multAmpMeanSlice, <span class="string">'.-'</span>);
+plot(fslice2,multAmpMeanSlice2, <span class="string">'.-'</span>);
+legend(<span class="string">"from t = "</span> + stime(1) + <span class="string">" sec. to t = "</span> + stime(end) + <span class="string">" sec."</span>, <span class="string">"from t = "</span> + stime2(1) + <span class="string">" sec. to t = "</span> + stime2(end) + <span class="string">" sec."</span>)
+xlabel(<span class="string">"Frequency(Hz)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+hold <span class="string">off</span>;
+
+<span class="comment">% Getting the mean amplitude of a frequency(29Hz).</span>
+[V, I] = nearest_value(f,29.0);
+amp29 = ampMean(I);
+</pre><img vspace="5" hspace="5" src="Assignment7_10.png" alt=""> <img vspace="5" hspace="5" src="Assignment7_11.png" alt=""> <img vspace="5" hspace="5" src="Assignment7_12.png" alt=""> <h2 id="5">8.6</h2><pre class="codeinput"><span class="comment">%Init sample vector</span>
+samples = zeros(1,size(data,2));
+<span class="comment">%Define slices and frequency of interest</span>
+sb = 0;
+se = 100;
+foi = 29;
+<span class="comment">%Shift slice over data</span>
+<span class="keyword">for</span> i=1:900
+    sb = 0 + i;
+    se = 100 + i;
+    samples(i) = get_single_amplitude(data, fs, sb, se, foi);
+<span class="keyword">end</span>
+</pre><h2 id="6">8.7</h2><pre class="codeinput"><span class="comment">%Define slice</span>
+wsize = 100;
+<span class="comment">%Get samples with slice</span>
+samples = get_amplitude(data, fs, wsize, foi);
+<span class="comment">%Make time vector for plotting</span>
+timevector = linspace(-1,2,size(data,2));
+<span class="comment">%Plot samples.</span>
+figure(13)
+hold <span class="string">on</span>;
+title(<span class="string">"Fig13 Amplitude of 29Hz over time."</span>);
+plot(timevector,samples);
+xlabel(<span class="string">"Time(s)"</span>);
+ylabel(<span class="string">"Amplitude"</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="Assignment7_13.png" alt=""> <h2 id="7">8.8</h2><pre class="codeinput"><span class="comment">%Init matrix for frequency samples</span>
+tfr = zeros(60, size(data,2));
+<span class="comment">%Loop over frequencies getting samples and filling the matrix.</span>
+<span class="keyword">for</span> i = 1:60
+    <span class="comment">%The window size must be 3 times the lenght of a period of the</span>
+    <span class="comment">%frequency.</span>
+    period = 1/i;
+    samplePeriod = 1/fs;
+    wsize = round((period/samplePeriod) * 3);
+    tfr(i,:) = get_amplitude(data, fs, wsize, i);
+<span class="keyword">end</span>
+<span class="comment">%Plot the time, frequency, amplitude image</span>
+hold <span class="string">on</span>;
+figure(14)
+image(32 + 32 * tfr./max(max(abs(tfr))));
+title(<span class="string">"Fig15 Amplitude of frequencies over time."</span>);
+set(gca, <span class="string">'YDir'</span>, <span class="string">'normal'</span>);
+set(gca, <span class="string">'XTick'</span>, linspace(1,size(data,2), 10));
+tf = time(1);
+tl = time(end);
+set(gca, <span class="string">'XtickLabel'</span>, round(10 * (linspace(tf,	tl,	10))) / 10);
+colormap <span class="string">jet</span>;
+xlabel(<span class="string">"Time(s)"</span>);
+ylabel(<span class="string">"Frequency"</span>);
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="Assignment7_14.png" alt=""> <h2 id="8">8.9</h2><pre class="codeinput"><span class="comment">%Get basline data points</span>
+baselineData = data(:,time &lt; 0);
+<span class="comment">%Init a baslineMeans matrix</span>
+baselineMeans = zeros(60,900);
+<span class="comment">%Loop over frequencies and fill rows with means (we fill the entire row</span>
+<span class="comment">%with one number for easy matrix substractions.</span>
+<span class="keyword">for</span> i = 1:60
+    <span class="comment">%The window size must be 3 times the lenght of a period of the</span>
+    <span class="comment">%frequency.</span>
+    period = 1/i;
+    samplePeriod = 1/fs;
+    wsize = round((period/samplePeriod) * 3);
+    baselineMeans(i,:) = nanmean(get_amplitude(baselineData, fs, wsize, i));
+<span class="keyword">end</span>
+<span class="comment">%Substract baseline from frequency samples</span>
+cortrf = tfr - baselineMeans;
+
+<span class="comment">%Plot corrected time, frequency, amplitude image.</span>
+hold <span class="string">on</span>;
+figure(15)
+image(32 + 32 * cortrf./max(max(abs(cortrf))));
+title(<span class="string">"Fig15 Corrected amplitude of frequencies over time."</span>);
+set(gca, <span class="string">'YDir'</span>, <span class="string">'normal'</span>);
+set(gca, <span class="string">'XTick'</span>, linspace(1,size(data,2), 10));
+tf = time(1);
+tl = time(end);
+set(gca, <span class="string">'XtickLabel'</span>, round(10 * (linspace(tf,	tl,	10))) / 10);
+colormap <span class="string">jet</span>;
+xlabel(<span class="string">"Time(s)"</span>);
+ylabel(<span class="string">"Frequency"</span>);
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="Assignment7_15.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% 8.1
+%Loading data
+load('erf-data.mat');
+
+%Plotting data
+figure(1);
+hold on;
+title("Fig1 FC")
+xlabel("Time(sec)");
+ylabel("Amplitude");
+for(i = 1:4)
+    plot(time,dataFC(i,:));
+end
+legend("Trial 1", "Trial 2", "Trial 3", "Trial 4");
+hold off
+
+figure(2);
+hold on;
+title("Fig2 FIC")
+xlabel("Time(sec)");
+ylabel("Amplitude");
+for(i = 1:4)
+    plot(time,dataFIC(i,:));
+end
+legend("Trial 1", "Trial 2", "Trial 3", "Trial 4");
+hold off;
+
+figure(3);
+hold on;
+title("Fig3 IC")
+xlabel("Time(sec)");
+ylabel("Amplitude");
+for(i = 1:4)
+    plot(time,dataIC(i,:));
+end
+legend("Trial 1", "Trial 2", "Trial 3", "Trial 4");
+hold off;
+
+%% 8.2
+%Taking means over dim 1 (trials) of data
+meanFC = mean(dataFC,1);
+meanFIC = mean(dataFIC,1);
+meanIC = mean(dataIC,1);
+
+%plotting means
+figure(4)
+hold on;
+title("Fig4 mean over trials")
+xlabel("Time(sec)");
+ylabel("Amplitude");
+plot(time,meanFC);
+plot(time,meanFIC);
+plot(time,meanIC);
+legend("FC","FIC","IC");
+xlim([0,1])
+hold off;
+
+figure(5)
+hold on;
+title("Fig5 FC mean over trials and raw")
+xlabel("Time(sec)");
+ylabel("Amplitude");
+p = plot(time,meanFC);
+set(p(1),'linewidth',3);
+for(i = 1:10)
+    plot(time,dataFC(i,:),'REPLACE_WITH_DASH_DASH');
+end
+legend("Mean");
+xlim([0,1])
+hold off;
+
+figure(6)
+hold on;
+title("Fig6 FIC mean over trials and raw")
+xlabel("Time(sec)");
+ylabel("Amplitude");
+p = plot(time,meanFIC);
+set(p(1),'linewidth',3);
+for(i = 1:10)
+    plot(time,dataFIC(i,:),'REPLACE_WITH_DASH_DASH');
+end
+legend("Mean");
+xlim([0,1])
+hold off;
+
+figure(7)
+hold on;
+title("Fig7 IC mean over trials and raw")
+xlabel("Time(sec)");
+ylabel("Amplitude");
+p = plot(time,meanIC);
+set(p(1),'linewidth',3);
+for(i = 1:10)
+    plot(time,dataIC(i,:),'REPLACE_WITH_DASH_DASH');
+end
+legend("Mean");
+xlim([0,1])
+hold off;
+
+%% 8.3
+%We are goig to reuse vars so clear the worksspace.
+clearvars;
+%Load data
+load('tfr-data.mat');
+
+%Do fourier transform on data
+fftData = fft(data, [], 2);
+fftAmp = abs(fftData)./size(fftData,2);
+n = size(fftData,2);
+fs = n/abs(min(time) - max(time));
+f = fs/n*(0:n-1);
+f_nyquist = fs/2;
+
+%Cutoff at nyquist
+if mod(n,2)==0
+    n_cutoff = n/2;
+else
+    n_cutoff=(n-1)/2;
+end
+f = f(1:n_cutoff);
+fftAmp = 2*fftAmp(:,1:n_cutoff);
+fftAmp(:,1) = fftAmp(:,1)./2;
+
+ampMean = mean(fftAmp,1);
+
+%Plot both meaned data and multiplied meaned data.
+figure(8)
+hold on;
+title("Fig8 mean of frequency amplitudes")
+plot(f,ampMean,'k.-');
+xlabel("Frequency,(Hz)");
+ylabel("Amplitude");
+hold off;
+
+%Calc multiplied means
+multMean = ampMean.*f;
+figure(9)
+hold on;
+title("Fig9 multiplied mean of frequency amplitudes")
+plot(f,multMean, 'k.-');
+xlabel("Frequency(Hz)");
+ylabel("Amplitude");
+hold off;
+
+%% 8.4
+%Define slice paramiters
+s_begin = 1;
+s_end = 100;
+
+%Get slice
+slice = data(:,s_begin:s_end);
+stime = time(:,s_begin:s_end);
+
+%Do transform on slice
+[fslice,fftSlice, ampMeanSlice, multAmpMeanSlice] = fTrans(slice,stime);
+
+%Plot frequencies
+figure(10)
+hold on;
+title("Fig10 mean of slice from t=" + time(s_begin) + " sec. to t=" + time(s_end) + " sec.");
+plot(fslice,ampMeanSlice, 'k.-');
+xlabel("Frequency(Hz)");
+ylabel("Amplitude");
+hold off;
+
+figure(11)
+hold on;
+title("Fig11 multiplied mean of slice from t=" + time(s_begin) + " sec. to t=" + time(s_end) + " sec.");
+plot(fslice,multAmpMeanSlice, 'k.-');
+xlabel("Frequency(Hz)");
+ylabel("Amplitude");
+hold off;
+
+%Another slice is made and transform preformed on, followed by plotting it.
+s_begin = 801;
+s_end = 900;
+
+slice2 = data(:,s_begin:s_end);
+stime2 = time(:,s_begin:s_end);
+[fslice2,fftSlice2, ampMeanSlice2, multAmpMeanSlice2] = fTrans(slice2,stime2);
+
+figure(12)
+hold on;
+title("Fig12 multiplied mean of slices");
+plot(fslice,multAmpMeanSlice, '.-');
+plot(fslice2,multAmpMeanSlice2, '.-');
+legend("from t = " + stime(1) + " sec. to t = " + stime(end) + " sec.", "from t = " + stime2(1) + " sec. to t = " + stime2(end) + " sec.")
+xlabel("Frequency(Hz)");
+ylabel("Amplitude");
+hold off;
+
+% Getting the mean amplitude of a frequency(29Hz).
+[V, I] = nearest_value(f,29.0);
+amp29 = ampMean(I);
+
+%% 8.6
+%Init sample vector
+samples = zeros(1,size(data,2));
+%Define slices and frequency of interest
+sb = 0;
+se = 100;
+foi = 29;
+%Shift slice over data
+for i=1:900
+    sb = 0 + i;
+    se = 100 + i;
+    samples(i) = get_single_amplitude(data, fs, sb, se, foi);
+end
+
+%% 8.7
+%Define slice
+wsize = 100;
+%Get samples with slice
+samples = get_amplitude(data, fs, wsize, foi);
+%Make time vector for plotting
+timevector = linspace(-1,2,size(data,2));
+%Plot samples.
+figure(13)
+hold on;
+title("Fig13 Amplitude of 29Hz over time.");
+plot(timevector,samples);
+xlabel("Time(s)");
+ylabel("Amplitude");
+hold off;
+
+%% 8.8
+%Init matrix for frequency samples
+tfr = zeros(60, size(data,2));
+%Loop over frequencies getting samples and filling the matrix.
+for i = 1:60
+    %The window size must be 3 times the lenght of a period of the
+    %frequency.
+    period = 1/i;
+    samplePeriod = 1/fs;
+    wsize = round((period/samplePeriod) * 3);
+    tfr(i,:) = get_amplitude(data, fs, wsize, i);
+end
+%Plot the time, frequency, amplitude image
+hold on;
+figure(14)
+image(32 + 32 * tfr./max(max(abs(tfr))));
+title("Fig15 Amplitude of frequencies over time.");
+set(gca, 'YDir', 'normal');
+set(gca, 'XTick', linspace(1,size(data,2), 10));
+tf = time(1);
+tl = time(end);
+set(gca, 'XtickLabel', round(10 * (linspace(tf,	tl,	10))) / 10);
+colormap jet;
+xlabel("Time(s)");
+ylabel("Frequency");
+hold off
+
+%% 8.9
+%Get basline data points
+baselineData = data(:,time < 0);
+%Init a baslineMeans matrix
+baselineMeans = zeros(60,900);
+%Loop over frequencies and fill rows with means (we fill the entire row
+%with one number for easy matrix substractions.
+for i = 1:60
+    %The window size must be 3 times the lenght of a period of the
+    %frequency.
+    period = 1/i;
+    samplePeriod = 1/fs;
+    wsize = round((period/samplePeriod) * 3);
+    baselineMeans(i,:) = nanmean(get_amplitude(baselineData, fs, wsize, i));
+end
+%Substract baseline from frequency samples
+cortrf = tfr - baselineMeans;
+
+%Plot corrected time, frequency, amplitude image.
+hold on;
+figure(15)
+image(32 + 32 * cortrf./max(max(abs(cortrf))));
+title("Fig15 Corrected amplitude of frequencies over time.");
+set(gca, 'YDir', 'normal');
+set(gca, 'XTick', linspace(1,size(data,2), 10));
+tf = time(1);
+tl = time(end);
+set(gca, 'XtickLabel', round(10 * (linspace(tf,	tl,	10))) / 10);
+colormap jet;
+xlabel("Time(s)");
+ylabel("Frequency");
+hold off
+
+##### SOURCE END #####
+--></body></html>
